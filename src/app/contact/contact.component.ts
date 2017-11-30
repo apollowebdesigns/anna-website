@@ -17,10 +17,21 @@ import { MessageDetails } from '../message-details';
 export class ContactComponent implements OnInit {
 
   model = new MessageDetails('hello', 'hello@123.gmail.com', 'erjhwiehr');
+  url = 'https://uyolovpg91.execute-api.us-west-2.amazonaws.com/prod/contactHandler';
 
-  onSubmit() {console.log('completed!!!');  }
+  onSubmit() {
 
-  constructor() { }
+    function reqListener () {
+      console.log(this.responseText);
+    }
+
+    const oReq = new XMLHttpRequest();
+    oReq.addEventListener('load', reqListener);
+    oReq.open('GET', this.url);
+    oReq.send();
+  }
+
+  constructor() {}
 
   ngOnInit() {
   }
