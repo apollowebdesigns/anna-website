@@ -17,18 +17,25 @@ import { MessageDetails } from '../message-details';
 export class ContactComponent implements OnInit {
 
   model = new MessageDetails('hello', 'hello@123.gmail.com', 'erjhwiehr');
-  url = 'https://uyolovpg91.execute-api.us-west-2.amazonaws.com/prod/contactHandler';
+  url = 'https://kdvyzajvee.execute-api.eu-west-2.amazonaws.com/prod/ContactLambda';
 
-  onSubmit() {
-
-    function reqListener () {
-      console.log(this.responseText);
+  async onSubmit() {
+    try {
+      const response = await fetch(this.url, {
+        method: 'POST',
+        body: JSON.stringify(this.model),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse);
+        return jsonResponse;
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    const oReq = new XMLHttpRequest();
-    oReq.addEventListener('load', reqListener);
-    oReq.open('GET', this.url);
-    oReq.send();
   }
 
   constructor() {}
